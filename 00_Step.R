@@ -126,7 +126,7 @@ installed_packages_global <- rownames(utils::installed.packages())
 missing_packages_global <- setdiff(required_packages_global,
                                    installed_packages_global)
 
-# 0.2.5 Install pak and resolve R packages and Ubuntu system requirements
+# 0.2.5.5 Enable system requirement installation and verbose reporting
 # 0.2.5.1 Run installation only when required packages are missing
 if (length(missing_packages_global) > 0L) {
 # 0.2.5.2 Check whether pak is available before installing it
@@ -143,8 +143,11 @@ utils::install.packages("pak", lib = user_library_dir,
 if (!requireNamespace("pak", quietly = TRUE)) {
 stop("pak installation failed; inspect the bootstrap log.")
 }
-# 0.2.5.5 Enable system requirement installation and verbose reporting
-options(pkg.sysreqs = TRUE, 
+# 0.2.5.5 Disable automatic system requirement installation
+Sys.setenv(PKG_SYSREQS = "false",
+           PKG_SYSREQS_SUDO = "false")
+options(pkg.sysreqs = FALSE,
+        pkg.sysreqs_sudo = FALSE,
         pkg.sysreqs_verbose = TRUE)
 # 0.2.5.6 Report the names of the missing packages
 message("Installing missing packages: ",
