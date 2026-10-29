@@ -7,9 +7,8 @@
 #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 ## 15.1 Define the two communities and the common graphic style
 #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
-# 15.1.1 Create the results directory for this step
-output_dir_15 <- file.path(results_root_dir, "Step15_Bridge_Nodes")
-dir.create(output_dir_15, recursive = TRUE, showWarnings = FALSE)
+# 15.1.1 Verify the results directory defined in Step 00
+stopifnot(exists("output_dir_15"), dir.exists(output_dir_15))
 
 # 15.1.2 Assign the seven job crafting scores and the two correlates
 bridge_communities <- stats::setNames(
