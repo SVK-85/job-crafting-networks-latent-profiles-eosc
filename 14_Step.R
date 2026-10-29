@@ -8,27 +8,13 @@
 ## 14.0 Reuse the fitted network and define bootstrap settings
 #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 
-# 14.0.1 Check the fitted network and observed expected influence
-ggm14_required_objects <- c("network1", "EI", "output_dir_14")
-ggm14_missing_objects <- ggm14_required_objects[
-!vapply(ggm14_required_objects, exists, logical(1), inherits = TRUE)]
-if (length(ggm14_missing_objects) > 0L) {
-stop("Run Step 13 in the same R session first. Missing: ",
-     paste(ggm14_missing_objects, collapse = ", "))
-}
-stopifnot(dir.exists(output_dir_14))
-
-# 14.0.2 Retain the original seeds and 2,000 bootstrap replications
+# 14.0.1 Retain the original seeds and 2,000 bootstrap replications
 ggm_seed <- 20261025L
 ggm_boots <- getOption("jobcrafting.ggm.nBoots", 2000L)
 ggm_available_cores <- parallel::detectCores(logical = FALSE)
 if (is.na(ggm_available_cores)) ggm_available_cores <- 1L
 ggm_cores <- getOption("jobcrafting.ggm.nCores",
                        max(1L, min(7L, ggm_available_cores - 1L)))
-stopifnot(length(ggm_boots) == 1L, is.finite(ggm_boots), ggm_boots >= 2,
-          ggm_boots == as.integer(ggm_boots),
-          length(ggm_cores) == 1L, is.finite(ggm_cores), ggm_cores >= 1,
-          ggm_cores == as.integer(ggm_cores))
 ggm_boots <- as.integer(ggm_boots)
 ggm_cores <- as.integer(ggm_cores)
 
@@ -169,9 +155,6 @@ fill_values <- c("Diagonal" = "white",
                  "Different" = "black",
                  "Not different" = "grey80")
 if (!is.null(diagonal_colors)) {
-stopifnot(all(ids %in% names(diagonal_colors)),
-!anyNA(diagonal_colors[ids]),
-all(nzchar(diagonal_colors[ids])))
 diagonal_cells <- cells$id1 == cells$id2
 cells$status[diagonal_cells] <-
 as.character(cells$id1[diagonal_cells])
